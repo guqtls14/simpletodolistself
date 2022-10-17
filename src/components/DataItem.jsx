@@ -11,7 +11,9 @@ const DataItem = ({ onEdit, onDelete, id, content, date, score, title }) => {
 
   const onClickOk = (id, score) => {
     setBool(!bool);
+
     onEdit(id, {
+      title,
       id,
       content: newdata,
       date: new Date().toLocaleString(),
@@ -32,7 +34,7 @@ const DataItem = ({ onEdit, onDelete, id, content, date, score, title }) => {
   };
 
   return (
-    <Li>
+    <Li key={`Li_${id}`}>
       <h1>{title}</h1>
       {!bool ? (
         <p>{content}</p>

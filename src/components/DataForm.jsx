@@ -20,7 +20,7 @@ const Input = styled.input`
 const LabelContainer = styled.div`
   display: flex;
   margin-top: 20px;
-  /* flex-direction: column; */
+
   padding: 20px;
   justify-content: center;
   width: 80%;
@@ -28,50 +28,62 @@ const LabelContainer = styled.div`
 `;
 
 const DataForm = ({ onAdd }) => {
-  const [content, setContent] = useState("");
-  const [title, setTitle] = useState("");
-  const [attitude, setAttitude] = useState("");
+  const [state, setState] = useState({
+    content: "",
+    title: "",
+    attitude: "",
+  });
 
   const onSubmit = (e) => {
     e.preventDefault();
   };
 
   const onButton = () => {
-    if (content.length < 15) {
-      alert("내용을 15글자 이상 입력하시오");
-    } else if (title.length < 5) {
+    if (state.content.length < 10) {
+      alert("내용을 10글자 이상 입력하시오");
+    } else if (state.title.length < 5) {
       alert("제목을 5글자 이상 입력하시오");
-    } else if (attitude < 0) {
+    } else if (state.attitude.length < 0) {
       alert("점수를 입력하시오");
     } else {
       onAdd({
-        content,
-        title,
-        score: attitude,
+        content: state.content,
+        title: state.title,
+        score: state.attitude,
       });
       alert("저장 성공");
-      setContent("");
-      setTitle("");
-      setAttitude("");
+      setState({
+        content: "",
+        title: "",
+        attitude: "",
+      });
     }
   };
 
+  const handleChange = (e) => {
+    setState({
+      ...state,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   let formlength =
-    content.length !== 0 && title.length !== 0 && attitude.length !== 0
+    state.content.length !== 0 &&
+    state.title.length !== 0 &&
+    state.attitude.length !== 0
       ? true
       : false;
   return (
     <section>
       <H1>오늘의 일기</H1>
       <Form onSubmit={onSubmit}>
-        <Input value={title} onChange={(e) => setTitle(e.target.value)} />
+        <Input name="title" value={state.title} onChange={handleChange} />
         <textarea
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          name="text"
+          name="content"
+          value={state.content}
+          onChange={handleChange}
           id="text"
           placeholder="Write your content"
-          //   required
           rows="9"
           cols="68"
         />
@@ -79,12 +91,11 @@ const DataForm = ({ onAdd }) => {
           <label htmlFor="emotionscore">오늘의 감정점수: </label>
 
           <select
-            value={attitude}
-            name="scorelist"
+            name="attitude"
+            value={state.attitude}
             id="emotionscore"
             placeholder="Name"
-            // required
-            onChange={(e) => setAttitude(e.target.value)}
+            onChange={handleChange}
           >
             <option value="">--점수를 입력하세요--</option>
             <option value="1">1</option>

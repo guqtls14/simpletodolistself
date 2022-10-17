@@ -11,36 +11,36 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-let id = 3;
+let id = 0;
 const App = () => {
   const [data, setData] = useState([
-    {
-      id: 0,
-      title: "ex1",
-      content: "sasdjnkasldjsalkdajsldsajdsadsadsadsadsadsadsa",
-      score: 5,
-      // date: new Date().toLocaleDateString("en-kr", {
-      //   weekday: "long",
-      //   year: "numeric",
-      //   month: "short",
-      //   day: "numeric",
-      // }),
-      date: new Date().toLocaleString(),
-    },
-    {
-      id: 1,
-      title: "ex2",
-      content: "sasdjnkasldjsalkdajsldsajdwqewqewqewqe",
-      score: 3,
-      date: new Date().toLocaleString(),
-    },
-    {
-      id: 2,
-      title: "ex3",
-      content: "sasdjnkasldjsalkdajsldsajdqwewqeqw",
-      score: 2,
-      date: new Date().toLocaleString(),
-    },
+    // {
+    //   id: 0,
+    //   title: "ex1",
+    //   content: "sasdjnkasldjsalkdajsldsajdsadsadsadsadsadsadsa",
+    //   score: 5,
+    //   // date: new Date().toLocaleDateString("en-kr", {
+    //   //   weekday: "long",
+    //   //   year: "numeric",
+    //   //   month: "short",
+    //   //   day: "numeric",
+    //   // }),
+    //   date: new Date().toLocaleString(),
+    // },
+    // {
+    //   id: 1,
+    //   title: "ex2",
+    //   content: "sasdjnkasldjsalkdajsldsajdwqewqewqewqe",
+    //   score: 3,
+    //   date: new Date().toLocaleString(),
+    // },
+    // {
+    //   id: 2,
+    //   title: "ex3",
+    //   content: "sasdjnkasldjsalkdajsldsajdqwewqeqw",
+    //   score: 2,
+    //   date: new Date().toLocaleString(),
+    // },
   ]);
 
   // data추가, content는 객체형태
@@ -50,11 +50,15 @@ const App = () => {
       date: new Date().toLocaleString(),
       ...content,
     };
+    // 업데이트된 데이터가 맨위로감
+    localStorage.setItem("key", JSON.stringify([newData, ...data]));
     setData([newData, ...data]);
   };
   // data 제거
   const filteringData = (id) => {
     const filterdata = data.filter((item) => item.id !== id);
+
+    localStorage.setItem("key", JSON.stringify([...filterdata]));
     setData(filterdata);
   };
   // 데이터 수정
@@ -66,14 +70,27 @@ const App = () => {
         return item;
       }
     });
+
     setData(editdata);
+    localStorage.setItem("key", JSON.stringify([...editdata]));
   };
+
+  let datas = "";
+  console.log("ok: ", localStorage.getItem("key"));
+  console.log("ok: ", localStorage.getItem("key") === null);
+  if (localStorage.getItem("key") === null) {
+    datas = data;
+  } else {
+    datas = JSON.parse(localStorage.getItem("key"));
+  }
+  console.log("22: ", datas);
+  // let datas = localStorage.getItem("key");
   return (
     <Container>
       <DataForm onAdd={PlusContent} />
-      <DataRatio data={data} />
+      <DataRatio data={datas} />
 
-      <DataLists data={data} onDelete={filteringData} onEdit={onEdit} />
+      <DataLists data={datas} onDelete={filteringData} onEdit={onEdit} />
     </Container>
   );
 };
