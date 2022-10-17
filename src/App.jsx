@@ -68,11 +68,13 @@ const App = () => {
   };
   // 데이터 수정
   const onEdit = (id, newItem) => {
-    let editdata = data.map((item) => {
+    let Data = JSON.parse(localStorage.getItem("key"));
+    let editdata = Data.map((item) => {
       if (item.id === id) {
         return newItem;
       } else {
         return item;
+        z;
       }
     });
 
@@ -82,8 +84,7 @@ const App = () => {
   };
 
   let datas = "";
-  console.log("ok: ", localStorage.getItem("key"));
-  console.log("ok: ", localStorage.getItem("key") === null);
+
   if (localStorage.getItem("key") === null) {
     datas = [];
   } else {
@@ -105,3 +106,4 @@ export default App;
 
 // 참고
 // 날짜:https://www.freecodecamp.org/korean/news/how-to-format-dates-in-javascript/
+// 시간:https://codechacha.com/ko/javascript-get-current-date-and-time/
