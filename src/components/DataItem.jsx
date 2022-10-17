@@ -46,14 +46,22 @@ const DataItem = ({ onEdit, onDelete, id, content, date, score, title }) => {
       <p>{score}</p>
       <p>{date}</p>
       {!bool ? (
-        <BTN onClick={() => isBool()}>수정</BTN>
+        <BTN key={`btn1_${id}`} onClick={() => isBool()}>
+          수정
+        </BTN>
       ) : (
-        <BTN onClick={() => onClickOk(id, score)}>확인</BTN>
+        <BTN key={`btn1_${id}`} onClick={() => onClickOk(id, score)}>
+          확인
+        </BTN>
       )}
       {!bool ? (
-        <BTN onClick={handleClickRemove}>삭제</BTN>
+        <BTN key={`btn4_${id}`} onClick={handleClickRemove}>
+          삭제
+        </BTN>
       ) : (
-        <BTN onClick={handleQuitEdit}>취소</BTN>
+        <BTN key={`btn4_${id}`} onClick={handleQuitEdit}>
+          취소
+        </BTN>
       )}
     </Li>
   );

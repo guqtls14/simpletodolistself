@@ -11,7 +11,7 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-let id = 0;
+// let id = 0;
 const App = () => {
   const [data, setData] = useState([
     // {
@@ -46,17 +46,22 @@ const App = () => {
   // data추가, content는 객체형태
   const PlusContent = (content) => {
     let newData = {
-      id: id++,
+      id: Math.random() * 25,
       date: new Date().toLocaleString(),
       ...content,
     };
+    let Data = JSON.parse(localStorage.getItem("key"))
+      ? JSON.parse(localStorage.getItem("key"))
+      : [];
     // 업데이트된 데이터가 맨위로감
-    localStorage.setItem("key", JSON.stringify([newData, ...data]));
-    setData([newData, ...data]);
+    localStorage.setItem("key", JSON.stringify([newData, ...Data]));
+    setData([newData, ...Data]);
   };
   // data 제거
   const filteringData = (id) => {
-    const filterdata = data.filter((item) => item.id !== id);
+    // filter링할떄는 localStorage에있는 data가져와서 해야함!
+    let Data = JSON.parse(localStorage.getItem("key"));
+    const filterdata = Data.filter((item) => item.id !== id);
 
     localStorage.setItem("key", JSON.stringify([...filterdata]));
     setData(filterdata);
@@ -72,6 +77,7 @@ const App = () => {
     });
 
     setData(editdata);
+    // let Data = JSON.parse(localStorage.getItem("key"));
     localStorage.setItem("key", JSON.stringify([...editdata]));
   };
 
@@ -79,7 +85,7 @@ const App = () => {
   console.log("ok: ", localStorage.getItem("key"));
   console.log("ok: ", localStorage.getItem("key") === null);
   if (localStorage.getItem("key") === null) {
-    datas = data;
+    datas = [];
   } else {
     datas = JSON.parse(localStorage.getItem("key"));
   }
